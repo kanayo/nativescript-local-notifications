@@ -8,7 +8,9 @@ LocalNotifications.defaults = {
   interval: 0,
   ongoing: false,
   groupSummary: null,
-  bigTextStyle: false
+  bigTextStyle: false,
+  showWhen: false,
+  category: "reminder"
 };
 
 LocalNotifications.merge = function merge(obj1, obj2) { // Our merge function

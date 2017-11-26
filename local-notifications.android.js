@@ -97,6 +97,8 @@ LocalNotifications.schedule = function (arg) {
             // .setSound(options.sound)
             .setNumber(options.badge)
             .setOngoing(options.ongoing)
+            .setCategory( options.category)
+            .setShowWhen( options.showWhen )
             .setTicker(options.ticker || options.body);
 
         if (android.os.Build.VERSION.SDK_INT >= 26) {

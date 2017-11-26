@@ -99,6 +99,23 @@ declare namespace localNotifications {
          * Default false.
          */
         bigTextStyle?: boolean;
+
+
+        /**
+         * Set the Category
+         * 
+         * Android only.
+         * Default "reminder".
+         */
+        category?: string;
+        
+        /**
+         * Hide the when text
+         * 
+         * Android only.
+         * Default false.
+         */
+        showWhen?: boolean;
     }
 
     export interface ReceivedNotification {
