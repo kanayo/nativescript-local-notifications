@@ -169,9 +169,13 @@ LocalNotifications.schedule = function (arg) {
         if (repeatInterval > 0) {
           alarmManager.setRepeating(android.app.AlarmManager.RTC_WAKEUP, options.atTime, repeatInterval, pendingIntent);
         } else {
-          alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, options.atTime, pendingIntent);
+          if (options.at) {
+          	alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, options.atTime, pendingIntent);
+          } else {
+            var notiManager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+            notiManager.notify(options.id, notification);
+          }
         }
-
         LocalNotifications._persist(options);
       }
 
@@ -214,6 +218,7 @@ LocalNotifications._getInterval = function (interval) {
 LocalNotifications._persist = function (options) {
   var sharedPreferences = LocalNotifications._getSharedPreferences();
   var sharedPreferencesEditor = sharedPreferences.edit();
+  options.largeIconDrawable = null;
   sharedPreferencesEditor.putString("" + options.id, JSON.stringify(options));
   sharedPreferencesEditor.apply();
 };
@@ -222,7 +227,7 @@ LocalNotifications._unpersist = function (id) {
   var sharedPreferences = LocalNotifications._getSharedPreferences();
   var sharedPreferencesEditor = sharedPreferences.edit();
   sharedPreferencesEditor.remove("" + id);
-  sharedPreferencesEditor.apply();
+  sharedPreferencesEditor.commit();
 };
 
 LocalNotifications._cancelById = function (id) {
@@ -318,7 +323,7 @@ LocalNotifications.requestPermission = function (arg) {
 };
 
 LocalNotifications._getSharedPreferences = function () {
-  var PREF_KEY = "LocalNotificationsPlugin"; // TODO: For some reason this is `null` and causes Java error...
+  var PREF_KEY = "LocalNotificationsPlugin";
   return context.getSharedPreferences(PREF_KEY, android.content.Context.MODE_PRIVATE);
 };
 
